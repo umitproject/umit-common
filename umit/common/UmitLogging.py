@@ -4,7 +4,8 @@
 # Copyright (C) 2005-2006 Insecure.Com LLC.
 # Copyright (C) 2007-2008 Adriano Monteiro Marques
 #
-# Author: Adriano Monteiro Marques <adriano@umitproject.org>
+# Authors: Adriano Monteiro Marques <adriano@umitproject.org>
+#          Zhongjie Wang <wzj401@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,12 +24,10 @@
 __all__ = ['log', 'file_log']
 
 from logging import Logger, StreamHandler, FileHandler, Formatter
-from umit.core.UmitOptionParser import option_parser
 
-LOGLEVEL = option_parser.get_verbose()
-
-from umit.core.FirstSettings import GeneralSettingsConf
-gs = GeneralSettingsConf()
+#LOGLEVEL = option_parser.get_verbose()
+LOGLEVEL = 0
+log = Log("Umit", LOGLEVEL)
 
 class Log(Logger, object):
     def __init__(self, name, level=0, file_output=None):
@@ -38,10 +37,7 @@ class Log(Logger, object):
         if file_output:
             handler = FileHandler(file_output)
         else:
-            if gs.log == "File" and file_output:
-                handler = FileHandler(gs.log_file)
-            else:
-                handler = StreamHandler()
+            handler = StreamHandler()
 
         handler.setFormatter(self.formatter)
         
@@ -54,12 +50,11 @@ class Log(Logger, object):
         self.__formatter = Formatter(fmt)
 
 
-    format = "%(levelname)s - %(asctime)s - %(message)s"
+    format = "[%(levelname)s] - %(asctime)s - %(message)s"
     
     formatter = property(get_formatter, set_formatter, doc="")
     __formatter = Formatter(format)
 
-log = Log("Umit", LOGLEVEL)
 
 def file_log(file_output):
     """
