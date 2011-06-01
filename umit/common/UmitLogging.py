@@ -27,7 +27,6 @@ from logging import Logger, StreamHandler, FileHandler, Formatter
 
 #LOGLEVEL = option_parser.get_verbose()
 LOGLEVEL = 0
-log = Log("Umit", LOGLEVEL)
 
 class Log(Logger, object):
     def __init__(self, name, level=0, file_output=None):
@@ -70,6 +69,7 @@ Error: %s" % (file_output, err))
 
 
 if __name__ == '__main__':
+	log = Log("Umit", LOGLEVEL)
     log.debug("Debug Message")
     log.info("Info Message")
     log.warning("Warning Message")
