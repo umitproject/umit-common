@@ -32,16 +32,16 @@ class Log(Logger, object):
     def __init__(self, name, level=0, file_output=None):
         Logger.__init__(self, name, level)
         self.formatter = self.format
-        
+
         if file_output:
             handler = FileHandler(file_output)
         else:
             handler = StreamHandler()
 
         handler.setFormatter(self.formatter)
-        
+
         self.addHandler(handler)
-        
+
     def get_formatter(self):
         return self.__formatter
 
@@ -50,7 +50,7 @@ class Log(Logger, object):
 
 
     format = "[%(levelname)s] - %(asctime)s - %(message)s"
-    
+
     formatter = property(get_formatter, set_formatter, doc="")
     __formatter = Formatter(format)
 
@@ -69,7 +69,7 @@ Error: %s" % (file_output, err))
 
 
 if __name__ == '__main__':
-	log = Log("Umit", LOGLEVEL)
+    log = Log("Umit", LOGLEVEL)
     log.debug("Debug Message")
     log.info("Info Message")
     log.warning("Warning Message")
