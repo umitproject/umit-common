@@ -29,18 +29,19 @@ from logging import Logger, StreamHandler, FileHandler, Formatter
 LOGLEVEL = 0
 
 class Log(Logger, object):
-    def __init__(self, name, level=0, file_output=None):
+    def __init__(self, name, level=0, file_output=None, console=True):
         Logger.__init__(self, name, level)
         self.formatter = self.format
 
+        if console:
+            handler = StreamHandler()
+            handler.setFormatter(self.formatter)
+            self.addHandler(handler)
+
         if file_output:
             handler = FileHandler(file_output)
-        else:
-            handler = StreamHandler()
-
-        handler.setFormatter(self.formatter)
-
-        self.addHandler(handler)
+            handler.setFormatter(self.formatter)
+            self.addHandler(handler)
 
     def get_formatter(self):
         return self.__formatter
@@ -62,7 +63,7 @@ def file_log(file_output):
     """
     try:
         open(file_output, 'a')
-        return Log("Umit", 0, file_output)
+        return Log("Umit", 0, file_output, False)
     except IOError, err:
         raise Exception("Bad file output '%s' especified for saving log. \
 Error: %s" % (file_output, err))
